@@ -1,0 +1,6 @@
+Make evaluation code first
+evaluate as you go/evaluate for each optimization
+	
+compile table of optimizations and evaluations
+	mention linear space
+	do timing on different kinds of reads
