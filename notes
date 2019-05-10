@@ -4,3 +4,19 @@ evaluate as you go/evaluate for each optimization
 compile table of optimizations and evaluations
 	mention linear space
 	do timing on different kinds of reads
+
+statistics to gather:
+	try the following for 0,1,2,3 mismatches:
+		how many reads matched to the genome
+		how many matched to the correct position
+		What is the average number of matches for each read
+
+	could also show pigeonhole principle by carving reads up into kmers with len/k reads
+		test above examples
+
+reading the input
+	4th is position
+	6th is cigar string
+		can have insertions or deletions (these will not map)
+		can compare unmapped strings to insertions and deletions
+

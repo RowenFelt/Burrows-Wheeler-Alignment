@@ -99,12 +99,13 @@ def query_mismatch(letters, suffix_array, first_occur, last_col, count_matrix, p
     base = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, pattern, mismatches, None, None) 
     for match in base:
         matches.add(match)
-    new_pattern = pattern[:-1]
-    temp = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-1, None, None)
-    for match in temp:
-        matches.add(match)
+    for i in range(1,mismatches+1):
+        new_pattern = pattern[:-i]
+        temp = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-i, None, None)
+        for match in temp:
+            matches.add(match)
     return matches
-    
+   
 
 def query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, pattern, mismatches, top, bot):   
     """ Query BWT FM-index
@@ -138,12 +139,15 @@ def query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, patter
                 if letter == "$": #if it's the $ skip it
                     continue
                 count_array = count_matrix[letter]
-                if count_array[bot] - count_array[top] != 0 and top != 0 and count_array[top-1] != count_array[top]:    #if the letter appears in this range
+                if count_array[bot] - count_array[top] != 0:    #if the letter appears in this range
                     new_pattern = pattern[:i] + letter          #create new pattern with letter 
                     first = first_occur[letters.find(letter)]   
                     new_top = first + count_array[top]
                     new_bot = first + count_array[bot]
-                    new_matches = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-1, new_top, new_bot)
+                    if letter == pattern[i]:
+                        new_matches = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches, new_top, new_bot)
+                    else:
+                        new_matches = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-1, new_top, new_bot)
                     for match in new_matches:
                         matches.add(match)
             return matches

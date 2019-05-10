@@ -120,16 +120,15 @@ def query(letters, suffix_array, first_occur, last_col, count_matrix, pattern, s
 
 def query_mismatch(letters, suffix_array, first_occur, last_col, count_matrix, pattern, mismatches, sparsity):
     """ A wrapper for querying with mismatches """
-    if mismatches == 0:
-        return query(letters, suffix_array, first_occur, last_col, count_matrix, pattern, sparsity)
     matches = set()
     base = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, pattern, mismatches, None, None, sparsity) 
     for match in base:
         matches.add(match)
-    new_pattern = pattern[:-1]
-    temp = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-1, None, None, sparsity)
-    for match in temp:
-        matches.add(match)
+    for i in range(1,mismatches+1):
+        new_pattern = pattern[:-i]
+        temp = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-i, None, None, sparsity)
+        for match in temp:
+            matches.add(match)
     return matches
     
 
@@ -168,7 +167,10 @@ def query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, patter
                 new_top, new_bot = calculate_sparse_count(letters, letter, i, first_occur, count_matrix, top, bot, last_col, sparsity)
                 if new_top != None and new_bot != None:
                     new_pattern = pattern[:i] + letter          #create new pattern with letter 
-                    new_matches = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-1, new_top, new_bot, sparsity)
+                    if letter == pattern[i]:
+                        new_matches = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches, new_top, new_bot, sparsity)
+                    else:
+                        new_matches = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-1, new_top, new_bot, sparsity)
                     for match in new_matches:
                         matches.add(match)
             return matches
@@ -209,7 +211,7 @@ def calculate_sparse_count(letters, letter, index, first_occur, count_matrix, to
     for i in range(1 + (bot//sparsity) * sparsity, bot+1):
         if last_col[i-1] == letter:
             bot_const += 1   
-    if bot_const - top_const == 0 and top != 0 and last_col[top-1] != letter: #if the letter does not appear in this range argv
+    if bot_const - top_const == 0: #if the letter does not appear in this range argv
         # might also need something like x and 
         return None, None
     top = first + top_const
