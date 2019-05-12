@@ -104,7 +104,7 @@ def query_mismatch(letters, suffix_array, first_occur, last_col, count_matrix, p
         temp = query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, new_pattern, mismatches-i, None, None)
         for match in temp:
             matches.add(match)
-    return matches
+    return list(matches)
    
 
 def query_bwt(letters, suffix_array, first_occur, last_col, count_matrix, pattern, mismatches, top, bot):   
@@ -175,4 +175,3 @@ if __name__ == "__main__":
     for pattern in patterns:
         matches += query(letters, suffix_array, first_occur, last_col, count_matrix, pattern)
     print(" ".join(map(str, sorted(matches))))
-        
