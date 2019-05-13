@@ -1,0 +1,84 @@
+Rowen Felt
+Bioinformatic Algorithms
+Professor Linderman
+
+Project Diary
+
+Hour 1:
+I wanted to write my project proposal. 
+
+I plan on implementing the Burrows-Wheeler Transform Alignment algorithm and comparing the results between aligning experimental reads and synthetic reads.
+
+Hours 2 and 3:
+I wanted to implement the Burrows-Wheeler Transform.
+
+I implemented the Burrows-Wheeler Transform and tested it on the "panamabananas" example.
+
+Hour 4:
+I wanted to compare my own implementation with the Rosalind implementation from class.
+
+I decided to abandon my own implementation and focus on optimizing the Rosalind implementation for space complexity and allowing mismatches.
+
+Hour 5:
+I want to modify the BWT to use linear space instead of quadratic space.
+
+I was able to create all the cycle rotations using pointers to the correct indices in the reference text using a simple list comprehension.
+
+Hour 6:
+I want to sort the cycles using pointers.
+
+I wasn't able to figure out a good way to do this. Python doesn't support anonymous sort functions like Javascript. 
+
+Hour 7:
+I want to write my own custom sort function and modify the Rosalind implementation to use pointer-based cycles.
+
+I copied a version of quicksort from an online source (GeeksforGeeks) and modified it to use pointers rather than strings, and I was able to modify the Rosalind implementation to utilize the new system of storing pointers. 
+
+Hour 9:
+I wanted to write a comprehensive test suite for the linear space implementation.
+
+The tests revealed some issues that I need to fix.
+
+
+Hours 10 and 11:
+I wanted to debug the linear space implementation.
+
+I had to walk through every step of two of the test cases to figure out the bugs and fix them. I had some off-by-one errors in indexing.
+
+Hour 12:
+I wanted to implement mismatches in the BWA algorithm.
+
+I think I have the mismatches mostly figured out.
+
+Hour 13:
+I decided to try to implement the sparse count matrix.
+
+I think I have the sparse count matrix working for matches, but not for mismatches.
+
+Hour 14, 15, 16:
+I was unable to figure out the mismatches using the spare count matrix.
+
+I decided to go back to implementing the mismatches with the regular count matrix.
+
+Hour 16:
+Through my unit tests, I discovered an issue where I tested every letter if the mismatch argument was greater than 0, including matching characters.
+
+Even if the letter being considered was a match to the current pattern, I was decrementing mismatches and recursively searching with the current pattern. I fixed the issue to not decrement mismatches.
+
+Hour 17 and 18:
+I was stuck on this bug for a long time. I figured out that, as we had removed the last character and decremented mismatches to account for the last character being the mismatch, I need to remove the last character again for each mismatch and then run the algorithm with the smaller pattern.
+
+Hour 19:
+I wanted to create a system for reading in the synthetic reads and querying them.
+
+I discovered that the queries are 1-indexed for some reason. My queries currently are working.
+
+Hour 20:
+I wanted to create an experimentation framework.
+
+I ran my tests and had very promising results.
+
+Hour 21, 21, 23:
+I wanted to finish my poster and compile my results.
+
+I finished my poster and project. Hooray!
